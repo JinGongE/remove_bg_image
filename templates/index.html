@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>이미지 업로드</title>
+</head>
+<body>
+    <h1>이미지 업로드</h1>
+    <form action="/" method="post" enctype="multipart/form-data">
+        <input type="file" name="image">
+        <button type="submit">이미지 업로드</button>
+    </form>
+    <br>
+    <h2>결과 이미지</h2>
+    <img id="result_img" src="" />
+    <br>
+    <button onclick="downloadImage()">결과 이미지 다운로드</button>
+
+    <script>
+        // 이미지 표시 함수
+        function displayImage(resultBase64) {
+            document.getElementById('result_img').src = 'data:image/png;base64,' + resultBase64;
+        }
+
+        // 이미지 다운로드 함수
+        function downloadImage() {
+            var resultImage = document.getElementById('result_img').src;
+            var link = document.createElement('a');
+            link.href = resultImage;
+            link.download = 'result_image.png';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+
+    {% if result %}
+        <script>
+            displayImage('{{ result }}');
+        </script>
+    {% endif %}
+</body>
+</html>
